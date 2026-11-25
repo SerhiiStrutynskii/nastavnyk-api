@@ -16,6 +16,10 @@ export const userRepository = {
     return users.find((u) => u.email === email);
   },
 
+  findById(id: number): User | undefined {
+    return users.find((u) => u.id === id);
+  },
+
   findByUsername(username: string): User | undefined {
     return users.find((u) => u.username === username);
   },
@@ -24,6 +28,13 @@ export const userRepository = {
     const user: User = { id: users.length + 1, ...data };
     users.push(user);
     return user;
+  },
+
+  updateEmail(id: number, email: string): User {
+    const index = users.findIndex((u) => u.id === id);
+    if (index === -1) throw new Error(`User ${id} not found`);
+    users[index] = { ...users[index], email };
+    return users[index];
   },
 
   // Повертає сховище до початкових даних. Використовується в тестах.
